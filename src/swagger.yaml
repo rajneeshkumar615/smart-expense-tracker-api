@@ -1,0 +1,183 @@
+openapi: 3.0.3
+info:
+  title: Smart Expense Tracker API
+  description: A production-quality REST API for tracking personal expenses.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+tags:
+  - name: Expenses
+    description: Endpoints for managing expenses
+paths:
+  /api/expenses:
+    post:
+      tags: [Expenses]
+      summary: Create a new expense
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExpenseInput'
+            example:
+              title: Groceries
+              amount: 45.5
+              category: Food
+              date: '2025-01-15'
+      responses:
+        '201':
+          description: Expense created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExpenseResponse'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    get:
+      tags: [Expenses]
+      summary: Get all expenses, optionally filtered by category
+      parameters:
+        - in: query
+          name: category
+          schema:
+            type: string
+          required: false
+          description: Filter expenses by category
+          example: Food
+      responses:
+        '200':
+          description: A list of expenses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExpenseListResponse'
+  /api/expenses/total:
+    get:
+      tags: [Expenses]
+      summary: Get the total amount of all expenses, optionally filtered by category
+      parameters:
+        - in: query
+          name: category
+          schema:
+            type: string
+          required: false
+          description: Filter total by category
+          example: Food
+      responses:
+        '200':
+          description: The total amount
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TotalResponse'
+  /api/expenses/{id}:
+    delete:
+      tags: [Expenses]
+      summary: Delete an expense by id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The UUID of the expense to delete
+      responses:
+        '200':
+          description: Expense deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExpenseResponse'
+        '404':
+          description: Expense not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ExpenseInput:
+      type: object
+      required: [title, amount, category, date]
+      properties:
+        title:
+          type: string
+          example: Groceries
+        amount:
+          type: number
+          example: 45.5
+        category:
+          type: string
+          example: Food
+        date:
+          type: string
+          format: date
+          example: '2025-01-15'
+    Expense:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        title:
+          type: string
+          example: Groceries
+        amount:
+          type: number
+          example: 45.5
+        category:
+          type: string
+          example: Food
+        date:
+          type: string
+          format: date-time
+          example: '2025-01-15T00:00:00.000Z'
+    ExpenseResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Expense created successfully.
+        data:
+          $ref: '#/components/schemas/Expense'
+    ExpenseListResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        count:
+          type: integer
+          example: 2
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Expense'
+    TotalResponse:
+      type: object
+      properties:
+        total:
+          type: number
+          example: 1234
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: Validation failed.
+        details:
+          type: array
+          items:
+            type: string
+          example: ['title is required and cannot be empty.']
