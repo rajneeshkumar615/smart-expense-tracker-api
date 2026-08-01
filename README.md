@@ -9,6 +9,22 @@ A production-quality REST API for tracking personal expenses, built with **Node.
 
 ---
 
+## Table of Contents
+
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Architecture](#architecture)
+- [Installation](#installation)
+- [Running the API](#running-the-api)
+- [Testing](#testing)
+- [API Endpoints](#api-endpoints)
+- [Swagger Documentation](#bonus-swagger-documentation)
+- [Future Improvements](#future-improvements)
+- [License](#license)
+- [Author](#author)
+
+---
+
 ## Tech Stack
 
 - Node.js
@@ -144,23 +160,14 @@ The test suite resets `src/data/expenses.json` before each test to guarantee a c
 ✔ DELETE /api/expenses/:id       (delete + not-found)
 ✔ Centralized error handling
 ✔ Unknown routes → 404
-
-17/17 Tests Passing
 ```
-
----
-
-## Screenshots
-
-> Add your own screenshots here after running the project locally — recruiters and reviewers love visual proof. Suggested shots: Swagger UI at `/api-docs`, a `GET /api/expenses` response, a `POST /api/expenses` request/response, and a passing `npm test` run. Save images under an `images/` folder in the project root.
-
-```markdown
-### Swagger UI
-![Swagger](images/swagger.png)
 
 ### Test Results
-![Tests](images/tests.png)
-```
+
+- Total Tests: **17**
+- Passed: **17**
+- Failed: **0**
+- Test Framework: **Jest + Supertest**
 
 ---
 
@@ -349,3 +356,17 @@ It is generated from `src/swagger.yaml` using `swagger-ui-express`.
 - Pagination
 - Docker support
 - CI/CD with GitHub Actions
+
+---
+
+## License
+
+This project is licensed under the MIT License.
+
+---
+
+## Author
+
+**Rajneesh Kumar**
+
+- GitHub: https://github.com/rajneeshkumar615
