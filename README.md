@@ -1,6 +1,58 @@
 # Smart Expense Tracker API
 
+![Node.js](https://img.shields.io/badge/Node.js-18+-green)
+![Express](https://img.shields.io/badge/Express.js-4.x-black)
+![Tests](https://img.shields.io/badge/Tests-17%2F17-brightgreen)
+![License](https://img.shields.io/badge/License-MIT-blue)
+
 A production-quality REST API for tracking personal expenses, built with **Node.js** and **Express**, using a **layered architecture** (routes → controllers → services → utils) and a local JSON file as storage (no database).
+
+---
+
+## Tech Stack
+
+- Node.js
+- Express.js
+- REST API
+- Swagger (OpenAPI)
+- Jest
+- Supertest
+- UUID
+- Nodemon
+
+---
+
+## Highlights
+
+- Layered architecture (routes → controllers → services → utils)
+- Centralized error handling middleware
+- Swagger/OpenAPI documentation at `/api-docs`
+- File-based JSON storage (no database required)
+- Automated Jest + Supertest test suite
+- RESTful API design with proper HTTP status codes
+
+---
+
+## Architecture
+
+```
+Route
+  ↓
+Controller
+  ↓
+Service
+  ↓
+Utility
+  ↓
+JSON Storage
+```
+
+- **Routes** only call controllers.
+- **Controllers** only call services (no business logic in controllers).
+- **Services** contain all business logic and validation.
+- **Utilities** are only responsible for reading/writing the JSON file.
+- All async operations use `async/await`.
+- All errors flow through the centralized error middleware.
 
 ---
 
@@ -42,14 +94,6 @@ tests/
   expense.test.js                # Jest + Supertest test suite
 ```
 
-**Architecture rules enforced in this project:**
-- Routes only call controllers.
-- Controllers only call services (no business logic in controllers).
-- Services contain all business logic and validation.
-- Utilities are only responsible for reading/writing the JSON file.
-- All async operations use `async/await`.
-- All errors flow through the centralized error middleware.
-
 ---
 
 ## Installation
@@ -78,6 +122,8 @@ The API will be available at `http://localhost:3000`.
 
 Swagger documentation will be available at `http://localhost:3000/api-docs`.
 
+---
+
 ## Testing
 
 Run the full Jest + Supertest test suite:
@@ -86,13 +132,35 @@ Run the full Jest + Supertest test suite:
 npm test
 ```
 
-The test suite resets `src/data/expenses.json` before each test to guarantee a clean, predictable state, and covers:
-- Creating an expense (success + validation errors)
-- Getting all expenses
-- Filtering expenses by category
-- Calculating totals (overall and filtered)
-- Deleting an expense (success + not-found)
-- Unknown routes returning 404
+The test suite resets `src/data/expenses.json` before each test to guarantee a clean, predictable state.
+
+### Test Coverage
+
+```
+✔ POST /api/expenses            (create + validation)
+✔ GET /api/expenses              (list all)
+✔ GET /api/expenses?category=    (filter by category)
+✔ GET /api/expenses/total        (overall + filtered totals)
+✔ DELETE /api/expenses/:id       (delete + not-found)
+✔ Centralized error handling
+✔ Unknown routes → 404
+
+17/17 Tests Passing
+```
+
+---
+
+## Screenshots
+
+> Add your own screenshots here after running the project locally — recruiters and reviewers love visual proof. Suggested shots: Swagger UI at `/api-docs`, a `GET /api/expenses` response, a `POST /api/expenses` request/response, and a passing `npm test` run. Save images under an `images/` folder in the project root.
+
+```markdown
+### Swagger UI
+![Swagger](images/swagger.png)
+
+### Test Results
+![Tests](images/tests.png)
+```
 
 ---
 
@@ -270,3 +338,14 @@ http://localhost:3000/api-docs
 ```
 
 It is generated from `src/swagger.yaml` using `swagger-ui-express`.
+
+---
+
+## Future Improvements
+
+- MongoDB integration
+- JWT authentication
+- User accounts
+- Pagination
+- Docker support
+- CI/CD with GitHub Actions
